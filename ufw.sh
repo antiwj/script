@@ -49,9 +49,6 @@ ufw allow from 2405:b500::/32 to any port 443
 ufw allow from 2405:8100::/32 to any port 443
 ufw allow from 2a06:98c0::/29 to any port 443
 ufw allow from 2c0f:f248::/32 to any port 443
-ufw allow from 158.101.157.47  to any port 9411
-ufw allow from 43.155.98.125  to any port 9411
-ufw allow from 82.156.198.33 to any port 9411
 ufw allow 25544
 ufw allow 25555
 ufw allow 8999

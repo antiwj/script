@@ -8,6 +8,7 @@ ufw reload
 ufw allow 22
 ufw reload
 read -p "Enter the ssh port which you want to set: " port
+echo 'Port $port' >> /etc/ssh/sshd_config
 host=null
 read -p "Enter your bashtion IP:(q to quit) " host
 while [ $host != q ]

@@ -10,7 +10,7 @@ ufw reload
 read -p "Enter the ssh port which you want to set: " port
 host=null
 read -p "Enter your bashtion IP:(q to quit) " host
-while [ $bashtion != q ]
+while [ $host != q ]
 do
 	echo -e "Bashtion Host IP is this: \n" $host
 	ufw allow from $host to any port $port > /dev/null

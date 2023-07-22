@@ -11,14 +11,14 @@ ufw default allow outgoing
 ufw reload
 
 # allow cloudflare IPv4 access
-for ip in 'curl https://www.cloudflare.com/ips-v4'
+for ip in 'curl -Ls https://www.cloudflare.com/ips-v4'
 do 
 	ufw allow from $ip to any port 80
 	ufw allow from $ip to any port 443
 done
 
 # allow cloudflare IPv6 access
-for ip in 'curl https://www.cloudflare.com/ips-v6'
+for ip in 'curl -Ls https://www.cloudflare.com/ips-v6'
 do 
 	ufw allow from $ip to any port 80
 	ufw allow from $ip to any port 443
@@ -50,7 +50,8 @@ echo 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDVly2zvIA9bgGZF6dxxSp9N1mA8XPFNnTujj
 echo 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC7qHL3Mp5G+6WowFTb0waDTEY5TsFeQVByijmmBaA0bIqDAtDMX753RFAKvqxsHr523ZA+6kXhw/paVy6niu6iTIlDxWecfVzs3NeyMxA4invkf7dXHIeyjHwWvwt+EAGW5GxPI9gLyUNuntarYsBA/5rA23Y8QPdTDPYhWg9ggabHOZBlAc96oxoEZzK+qDJozjO2caxE7oeEHB5pTjRJT+VUS6IukQ/cK+C+PVGfAmCjflk/1QiugT9l8gZsy2QJ3Lk0r2bWJTnpwDlfC8wK52FVwaaDAprNZt5v6QiyGOfRHbe/ZYXKJUEHjrSRccjgZ9TgrEnLPD57UXQCk+URVdumM+lBOfNpBEH3ISfO0KFO7qgF5H2XOzAaV+PYQ77+7aToqa/1d6BJ8eVTwgUeQKkKdB0P52DKpv7XjwwBpE88HZKHbBSy6xdmtJ9dvQtPwWnv6ddIvGVZjJ2QnMFi+nzfmnMrrXc2EPtqmHhEGiPZvVgQNJlcZjcUv5sAZwM= root@instance-20220424-2300' >> /root/.ssh/authorized_keys
 chmod 600 /root/.ssh/authorized_keys
 # change the way of root login 
-echo 'PermitRootLogin prohibit-password' >> /etc/ssh/sshd_config
+sed -i 's/^#\?PermitRootLogin.*/PermitRootLogin yes/g' /etc/ssh/sshd_config;
+sudo sed -i 's/^#\?PasswordAuthentication.*/PasswordAuthentication yes/g' /etc/ssh/sshd_config;
 systemctl restart sshd
 
 # install x-ui
@@ -63,4 +64,4 @@ echo "x-ui 安装完成，请结束后使用x-ui命令查看运行状态"
 echo "----------------------------开始安装mtproxy----------------------------"
 mkdir /home/mtproxy && cd /home/mtproxy
 read -p "输入mtproxy端口: " mtp_port
-echo -e "$mtp_port\n\n\n\n" | curl -s -o mtproxy.sh https://raw.githubusercontent.com/ellermister/mtproxy/master/mtproxy.sh && chmod +x mtproxy.sh && bash mtproxy.sh > /dev/null 2>&1
+echo -e "$mtp_port\n\n\n\n" | curl -s -o mtproxy.sh https://raw.githubusercontent.com/ellermister/mtproxy/master/mtproxy.sh && chmod +x mtproxy.sh && bash mtproxy.sh

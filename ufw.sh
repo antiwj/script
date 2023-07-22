@@ -11,14 +11,14 @@ ufw default allow outgoing
 ufw reload
 
 # allow cloudflare IPv4 access
-for ip in 'curl -Ls https://www.cloudflare.com/ips-v4'
+for ip in $(curl -Ls https://www.cloudflare.com/ips-v4)
 do 
 	ufw allow from $ip to any port 80
 	ufw allow from $ip to any port 443
 done
 
 # allow cloudflare IPv6 access
-for ip in 'curl -Ls https://www.cloudflare.com/ips-v6'
+for ip in $(curl -Ls https://www.cloudflare.com/ips-v6)
 do 
 	ufw allow from $ip to any port 80
 	ufw allow from $ip to any port 443
